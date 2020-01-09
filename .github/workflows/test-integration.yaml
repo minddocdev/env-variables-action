@@ -20,7 +20,7 @@ jobs:
       - name: Set env variables using github format
         uses: minddocdev/env-variables-action@master
         with:
-          variables: '***"action":"test","comment":"integration"***'
+          variables: '"action":"test","comment":"integration"'
           format: "github"
           whiteList: "action,comment"
       - name: Echo env variables
