@@ -1,29 +1,54 @@
 import * as core from '@actions/core';
 import * as yaml from 'js-yaml';
+import { type } from 'os';
 
-function getVariables(rawVariables: string, whiteList: string[]): {} {
+function getVariables(rawVariables: string, whiteList: string[], format: string): {} {
   core.debug(`Parsing raw variables ${rawVariables}`);
   let variables: {};
   try {
-    // Try JSON first
-    variables = JSON.parse(rawVariables);
-    core.debug(`Loaded variables: ${rawVariables}`);
-  } catch (err) {
-    // Might be in YAML format
-    try {
-      variables = yaml.safeLoad(rawVariables);
-    } catch (err) {
-      throw new Error(`Unable to parse variables. Found content: ${rawVariables}`);
+    switch (format) {
+      case 'github':
+        variables = JSON.parse(`{${rawVariables.replace('***', '')}}`);
+        break;
+
+      case 'yaml':
+        variables = yaml.safeLoad(rawVariables);
+        break;
+
+      default:
+        variables = JSON.parse(rawVariables);
+        break;
     }
+    core.debug(`Loaded variables: ${JSON.stringify(variables)}`);
+  } catch (err) {
+    throw new Error(`Unable to parse variables. Found content: ${rawVariables}`);
   }
   if (whiteList.length > 0) {
     const filteredVariables = {};
     whiteList.forEach((key: string) => {
-      filteredVariables[key] = variables[key];
+      filteredVariables[key] = findProperty(variables, key);
     });
     return filteredVariables;
   }
   return variables;
+}
+
+/**
+ * Find the value of the given key within the object,
+ * even if the key is deeply nested in the object tree.
+ * @param obj The object to search
+ * @param key The key to find
+ */
+function findProperty(obj: {}, key: string) {
+  for (const k in obj) {
+    const value = obj[k];
+    if (k === key) {
+      return value;
+    }
+    if (typeof obj[k] === 'object') {
+      return findProperty(obj[k], key);
+    }
+  }
 }
 
 const formatEnvName = (rawName: string): string => {
@@ -35,9 +60,10 @@ const formatEnvName = (rawName: string): string => {
 async function run() {
   try {
     const rawVariables = core.getInput('variables', { required: true });
+    const format = core.getInput('format', { required: false }).toLowerCase();
     const whiteList = core.getInput('whiteList', { required: false }) || '';
 
-    const variables = getVariables(rawVariables, whiteList.split(','));
+    const variables = getVariables(rawVariables, whiteList.split(','), format);
 
     Object.entries(variables).forEach(([key, value]) => {
       const envName = formatEnvName(key);

@@ -8,6 +8,10 @@ inputs:
   variables:
     description: "The variables to load in JSON or YAML format"
     required: true
+  format:
+    description: "The format of the variables json / yaml / github"
+    required: false
+    default: "json"
   whiteList:
     description: "Comma separated list of keys that will be loaded, ignoring the rest"
     required: false

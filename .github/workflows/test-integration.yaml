@@ -13,6 +13,15 @@ jobs:
         uses: minddocdev/env-variables-action@master
         with:
           variables: '{ "action": "test", "comment": "integration" }'
+          format: "json"
+          whiteList: "action,comment"
+      - name: Echo env variables
+        run: echo $ACTION && echo $COMMENT
+      - name: Set env variables using github format
+        uses: minddocdev/env-variables-action@master
+        with:
+          variables: '***"action":"test","comment":"integration"***'
+          format: "github"
           whiteList: "action,comment"
       - name: Echo env variables
         run: echo $ACTION && echo $COMMENT
@@ -24,6 +33,7 @@ jobs:
               action: test
               comment: integration
             '
+          format: "yaml"
           whiteList: "data.action,data.comment"
       - name: Echo env variables
         run: echo $ACTION && echo $COMMENT

@@ -34,11 +34,32 @@ jobs:
     steps:
       - name: Checkout git repository
         uses: actions/checkout@master
-      - name: Set env variables
+      - name: Set env variables using json
         uses: minddocdev/env-variables-action@master
         with:
           variables: '{ "action": "test", "comment": "integration" }'
+          format: 'json'
           whiteList: 'action,comment'
+      - name: Echo env variables
+        run: echo $ACTION && echo $COMMENT
+      - name: Set env variables using github format
+        uses: minddocdev/env-variables-action@master
+        with:
+          variables: '***"action":"test","comment":"integration"***'
+          format: 'github'
+          whiteList: 'action,comment'
+      - name: Echo env variables
+        run: echo $ACTION && echo $COMMENT
+      - name: Set env variables using yaml
+        uses: minddocdev/env-variables-action@master
+        with:
+          variables: |
+            'data:
+              action: test
+              comment: integration
+            '
+          format: 'yaml'
+          whiteList: 'data.action,data.comment'
       - name: Echo env variables
         run: echo $ACTION && echo $COMMENT
 ```

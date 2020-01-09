@@ -7,7 +7,7 @@
   "scripts": {
     "build": "ncc build -o lib",
     "lint": "tslint --project .",
-    "test": "jest"
+    "test": "jest --runInBand"
   },
   "repository": {
     "type": "git",
