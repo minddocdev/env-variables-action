@@ -1,0 +1,18 @@
+name: "test-integration"
+on:
+  push:
+    branches:
+      - master
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout git repository
+        uses: actions/checkout@master
+      - name: Parse payload variables
+        uses: minddocdev/env-variables-action@master
+        with:
+          variables: "${{ github.event }}"
+          whiteList: "action,comment"
+      - name: Echo env variables
+        run: echo $ACTION && echo $COMMENT

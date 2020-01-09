@@ -23,13 +23,13 @@ yarn test
 Use the action to export and use env variables:
 
 ```yaml
-name: 'deploy'
-
-on: ['deployment']
-
+name: 'test-integration'
+on:
+  push:
+    branches:
+      - master
 jobs:
-  deploy:
-    name: deploy
+  bump:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout git repository
@@ -37,8 +37,8 @@ jobs:
       - name: Parse payload variables
         uses: minddocdev/env-variables-action@master
         with:
-          variables: '${{ github.event.deployment.payload }}'
-          whiteList: 'app,cluster,snake_case'
-      - name: Test code
-        run: echo $APP && echo $CLUSTER && echo $SNAKE_CASE
+          variables: '${{ github.event }}'
+          whiteList: 'action,comment'
+      - name: Echo env variables
+        run: echo $ACTION && echo $COMMENT
 ```
