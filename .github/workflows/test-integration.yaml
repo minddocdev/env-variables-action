@@ -9,10 +9,12 @@ jobs:
     steps:
       - name: Checkout git repository
         uses: actions/checkout@master
-      - name: Parse payload variables
+      - name: Echo env variables
+        run: echo ${{ github.event }}
+      - name: Set env variables
         uses: minddocdev/env-variables-action@master
         with:
-          variables: "${{ github.event }}"
+          variables: ${{ github.event }}
           whiteList: "action,comment"
       - name: Echo env variables
         run: echo $ACTION && echo $COMMENT
