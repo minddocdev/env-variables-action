@@ -1,16 +1,16 @@
-name: 'Env Variables'
-description: 'Export env variables for Github actions from a JSON or YAML string'
-author: 'MindDoc GmbH'
+name: "Env Variables"
+description: "Export env variables for Github actions from a JSON or YAML string"
+author: "MindDoc Health GmbH"
+branding:
+  icon: "cloud"
+  color: "blue"
 inputs:
   variables:
-    description: 'The variables to load in JSON or YAML format'
+    description: "The variables to load in JSON or YAML format"
     required: true
   whiteList:
-    description: 'Comma separated list of keys that will be loaded, ignoring the rest'
+    description: "Comma separated list of keys that will be loaded, ignoring the rest"
     required: false
 runs:
-  using: 'node12'
-  main: 'lib/main.js'
-branding:
-  icon: 'cloud'
-  color: 'blue'
+  using: "node12"
+  main: "lib/index.js"

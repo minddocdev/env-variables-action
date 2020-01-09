@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 import * as yaml from 'js-yaml';
 
 function getVariables(rawVariables: string, whiteList: string[]): {} {
-  core.debug(`Parsing raw variables '${rawVariables}'...`);
+  core.debug(`Parsing raw variables ${rawVariables}`);
   let variables: {};
   try {
     // Try JSON first
@@ -18,15 +18,18 @@ function getVariables(rawVariables: string, whiteList: string[]): {} {
   }
   if (whiteList.length > 0) {
     const filteredVariables = {};
-    whiteList.forEach(whiteVar => filteredVariables[whiteVar] = variables[whiteVar]);
+    whiteList.forEach((key: string) => {
+      filteredVariables[key] = variables[key];
+    });
     return filteredVariables;
   }
   return variables;
 }
 
-const formatEnvName = (rawName: string) => {
-  const groups = rawName.match(/(.+?)([A-Z])/) || [];
-  return groups.join('_').toUpperCase();
+const formatEnvName = (rawName: string): string => {
+  return rawName.replace(/^[a-z]|[A-Z]/g, (value, index) => {
+    return index === 0 ? value : `_${value}`;
+  }).toUpperCase();
 };
 
 async function run() {
