@@ -1,16 +1,11 @@
 import * as core from '@actions/core';
 import * as yaml from 'js-yaml';
-import { type } from 'os';
 
 function getVariables(rawVariables: string, whiteList: string[], format: string): {} {
   core.debug(`Parsing raw variables ${rawVariables}`);
   let variables: {};
   try {
     switch (format) {
-      case 'github':
-        variables = JSON.parse(`{${rawVariables.replace('***', '')}}`);
-        break;
-
       case 'yaml':
         variables = yaml.safeLoad(rawVariables);
         break;

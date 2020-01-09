@@ -9,7 +9,7 @@ inputs:
     description: "The variables to load in JSON or YAML format"
     required: true
   format:
-    description: "The format of the variables json / yaml / github"
+    description: "The format of the variables, can be either JSON / YAML"
     required: false
     default: "json"
   whiteList:

@@ -18,6 +18,27 @@ Run the tests
 yarn test
 ```
 
+## Inputs
+
+### `variables`
+
+- name: variables
+- required: true
+- description: The object containing the variables in either JSON or YAML format.
+
+### `format`
+
+- name: format
+- required: false
+- default: json
+- description: Tell the action which format your `variables` are using.
+
+### `whiteList`
+
+- name: whiteList
+- required: false
+- description: Comma separated list of keys that will be loaded, ignoring the rest.
+
 ## Usage
 
 Use the action to export and use env variables:
@@ -39,14 +60,6 @@ jobs:
         with:
           variables: '{ "action": "test", "comment": "integration" }'
           format: 'json'
-          whiteList: 'action,comment'
-      - name: Echo env variables
-        run: echo $ACTION && echo $COMMENT
-      - name: Set env variables using github format
-        uses: minddocdev/env-variables-action@master
-        with:
-          variables: '***"action":"test","comment":"integration"***'
-          format: 'github'
           whiteList: 'action,comment'
       - name: Echo env variables
         run: echo $ACTION && echo $COMMENT
