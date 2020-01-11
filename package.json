@@ -1,8 +1,8 @@
 {
   "name": "env-variables-action",
-  "version": "0.0.0",
+  "version": "0.0.8",
   "private": true,
-  "description": "Deploy action",
+  "description": "Env variables action",
   "main": "src/index.ts",
   "scripts": {
     "build": "ncc build -o lib",
@@ -18,7 +18,7 @@
     "node",
     "setup"
   ],
-  "author": "MindDoc GmbH",
+  "author": "MindDoc Health GmbH",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.0",

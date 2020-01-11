@@ -2,6 +2,8 @@
 
 Export env variables for Github actions from a JSON or YAML string.
 
+Install dependencies
+
 ```bash
 yarn install
 ```
